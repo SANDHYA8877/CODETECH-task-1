@@ -1,0 +1,89 @@
+/* */
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class GradeTracker {
+
+    public static void main(String[] args) {
+        // Create a Scanner object to read input from the user
+        Scanner scanner = new Scanner(System.in);
+
+        // List to store grades
+        List<Double> grades = new ArrayList<>();
+        String input;
+        
+        // Input grades
+        do {
+            System.out.print("Enter a grade (0-100): ");
+            while (!scanner.hasNextDouble()) {
+                System.out.println("Invalid input. Please enter a numeric grade.");
+                scanner.next(); // Clear invalid input
+                System.out.print("Enter a grade (0-100): ");
+            }
+            double grade = scanner.nextDouble();
+            
+            // Validate grade range
+            if (grade < 0 || grade > 100) {
+                System.out.println("Grade must be between 0 and 100. Please try again.");
+                continue;
+            }
+            
+            grades.add(grade);
+
+            // Check if user wants to add more grades
+            System.out.print("Do you want to enter another grade? (yes/no): ");
+            input = scanner.next();
+        } while (input.equalsIgnoreCase("yes"));
+
+        // Calculate average
+        double sum = 0;
+        for (double grade : grades) {
+            sum += grade;
+        }
+        double average = sum / grades.size();
+
+        // Determine letter grade
+        String letterGrade;
+        if (average >= 90) {
+            letterGrade = "A";
+        } else if (average >= 80) {
+            letterGrade = "B";
+        } else if (average >= 70) {
+            letterGrade = "C";
+        } else if (average >= 60) {
+            letterGrade = "D";
+        } else {
+            letterGrade = "F";
+        }
+
+        // Calculate GPA (simple scale: A=4.0, B=3.0, C=2.0, D=1.0, F=0.0)
+        double gpa;
+        switch (letterGrade) {
+            case "A":
+                gpa = 4.0;
+                break;
+            case "B":
+                gpa = 3.0;
+                break;
+            case "C":
+                gpa = 2.0;
+                break;
+            case "D":
+                gpa = 1.0;
+                break;
+            default:
+                gpa = 0.0;
+                break;
+        }
+
+        // Display results
+        System.out.printf("Average Grade: %.2f%n", average);
+        System.out.println("Letter Grade: " + letterGrade);
+        System.out.printf("GPA: %.1f%n", gpa);
+
+        // Close the scanner
+        scanner.close();
+    }
+}
